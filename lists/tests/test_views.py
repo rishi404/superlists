@@ -78,7 +78,7 @@ class ListViewTest(TestCase):
         )
 
     def test_for_invalid_input_nothing_saved_to_db(self):
-        response = self.post_invalid_input()
+        self.post_invalid_input()
         self.assertEqual(Item.objects.count(), 0)
 
     def test_for_invalid_input_renders_list_template(self):
@@ -118,8 +118,7 @@ class NewListTest(TestCase):
 
     def test_validation_errors_are_shown_in_the_home_page(self):
         response = self.client.post('/lists/new', data={'text': ''})
-        expected_error = escape("You can't have an empty list item")
-        self.assertContains(response, expected_error)
+        self.assertContains(response, escape(EMPTY_ITEM_ERROR))
 
     def test_for_invalid_input_passes_form_to_template(self):
         response = self.client.post('/lists/new', data={'text': ''})
